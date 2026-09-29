@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "source": "security_incident.log",
+    "generated_at": "2026-09-29T18:58:39.212131",
+    "engine": "LogSentinel v1.0.0"
+  },
+  "metrics": {
+    "total_requests": 18,
+    "total_bytes": 15361,
+    "error_rate_pct": 83.33,
+    "status_counts": {
+      "200": 3,
+      "401": 6,
+      "403": 1,
+      "500": 6,
+      "404": 2
+    },
+    "malformed_lines": 0,
+    "latency_ms": {
+      "avg": 442.28,
+      "median": 20.0,
+      "p95": 1704.0
+    }
+  },
+  "incidents": [
+    {
+      "id": "INC-ERR-001",
+      "rule_name": "ErrorSpikeDetector",
+      "severity": "CRITICAL",
+      "title": "HTTP 5xx Server Outage Spike (83.3% error rate)",
+      "description": "At 2026-09-29 11:05, recorded 5 server errors out of 6 requests (83.3% failure rate).",
+      "timestamp": "2026-09-29T11:05:00+00:00",
+      "source_ip": null,
+      "affected_path": "/api/v1/orders",
+      "evidence": [
+        "Time Window: 2026-09-29 11:05:00 UTC",
+        "Total Requests: 6",
+        "5xx Failures: 5",
+        "Top Failing Endpoints: /api/v1/orders (5 errors)"
+      ],
+      "remediation": "Inspect application backend logs, database connection pools, and upstream microservice dependencies for outages."
+    },
+    {
+      "id": "INC-SEC-002",
+      "rule_name": "SecurityThreatDetector",
+      "severity": "CRITICAL",
+      "title": "SQL Injection (SQLi) Pattern from 198.51.100.99",
+      "description": "Host 198.51.100.99 targeted '/api/products?id=10'%20UNION%20SELECT%20username,password%20FROM%20users--' matching attack signature 'UNION SELECT'.",
+      "timestamp": "2026-09-29T11:00:32+00:00",
+      "source_ip": "198.51.100.99",
+      "affected_path": "/api/products?id=10'%20UNION%20SELECT%20username,password%20FROM%20users--",
+      "evidence": [
+        "HTTP Method: GET",
+        "Target URL: /api/products?id=10'%20UNION%20SELECT%20username,password%20FROM%20users--",
+        "Matched Token: UNION SELECT",
+        "User-Agent: Mozilla/5.0",
+        "Status Code: 500"
+      ],
+      "remediation": "Ensure all database queries use parameterized prepared statements; block suspicious SQL tokens in WAF."
+    },
+    {
+      "id": "INC-SEC-001",
+      "rule_name": "SecurityThreatDetector",
+      "severity": "CRITICAL",
+      "title": "Directory Traversal / LFI Probe from 203.0.113.19",
+      "description": "Host 203.0.113.19 targeted '/download?file=../../../../etc/passwd' matching attack signature '../'.",
+      "timestamp": "2026-09-29T11:00:25+00:00",
+      "source_ip": "203.0.113.19",
+      "affected_path": "/download?file=../../../../etc/passwd",
+      "evidence": [
+        "HTTP Method: GET",
+        "Target URL: /download?file=../../../../etc/passwd",
+        "Matched Token: ../",
+        "User-Agent: curl/7.81.0",
+        "Status Code: 403"
+      ],
+      "remediation": "Block path traversal sequences at WAF or reverse-proxy level and restrict file system permissions."
+    },
+    {
+      "id": "INC-SEC-003",
+      "rule_name": "SecurityThreatDetector",
+      "severity": "HIGH",
+      "title": "Automated Vulnerability Scanner from 192.0.2.77",
+      "description": "Host 192.0.2.77 targeted '/.env' matching attack signature 'Nikto'.",
+      "timestamp": "2026-09-29T11:00:38+00:00",
+      "source_ip": "192.0.2.77",
+      "affected_path": "/.env",
+      "evidence": [
+        "HTTP Method: GET",
+        "Target URL: /.env",
+        "Matched Token: Nikto",
+        "User-Agent: Nikto/2.1.6",
+        "Status Code: 404"
+      ],
+      "remediation": "Immediately blackhole or challenge requests originating from automated vulnerability scanning tools."
+    },
+    {
+      "id": "INC-BF-001",
+      "rule_name": "BruteForceDetector",
+      "severity": "HIGH",
+      "title": "Brute-Force / Credential Stuffing Burst from 198.51.100.42",
+      "description": "Detected 5 failed auth requests ((401, 403)) within 60s from host 198.51.100.42.",
+      "timestamp": "2026-09-29T11:00:17+00:00",
+      "source_ip": "198.51.100.42",
+      "affected_path": "/api/v1/auth/login",
+      "evidence": [
+        "11:00:05 - POST /api/v1/auth/login -> 401",
+        "11:00:08 - POST /api/v1/auth/login -> 401",
+        "11:00:11 - POST /api/v1/auth/login -> 401",
+        "11:00:14 - POST /api/v1/auth/login -> 401",
+        "11:00:17 - POST /api/v1/auth/login -> 401"
+      ],
+      "remediation": "Add 198.51.100.42 to temporary firewall/fail2ban ban list and enforce CAPTCHA or exponential rate limiting on /api/v1/auth/login."
+    },
+    {
+      "id": "INC-PERF-001",
+      "rule_name": "PerformanceDetector",
+      "severity": "MEDIUM",
+      "title": "Latency SLA Degradation on /api/v1/orders",
+      "description": "Endpoint '/api/v1/orders' breached the 1000ms SLA. P90 latency reached 1700.0ms across 5 requests.",
+      "timestamp": "2026-09-29T11:05:20+00:00",
+      "source_ip": null,
+      "affected_path": "/api/v1/orders",
+      "evidence": [
+        "Samples Analyzed: 5 requests",
+        "Average Latency: 1532.00 ms",
+        "Median Latency: 1510.00 ms",
+        "P90 Latency: 1700.00 ms",
+        "Peak Latency: 1700.00 ms"
+      ],
+      "remediation": "Profile endpoint handler for '/api/v1/orders', inspect database query plans, and implement Redis/Memcached response caching."
+    }
+  ]
+}

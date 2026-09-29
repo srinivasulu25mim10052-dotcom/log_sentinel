@@ -1,0 +1,14 @@
+192.168.1.10 - - [29/Sep/2026:10:00:01 +0000] "GET / HTTP/1.1" 200 4523 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" 0.025
+192.168.1.11 - - [29/Sep/2026:10:00:02 +0000] "GET /static/css/main.css HTTP/1.1" 200 12543 "http://example.com/" "Mozilla/5.0" 0.010
+192.168.1.12 - - [29/Sep/2026:10:00:05 +0000] "GET /static/js/bundle.js HTTP/1.1" 200 89201 "http://example.com/" "Mozilla/5.0" 0.040
+192.168.1.10 - - [29/Sep/2026:10:00:12 +0000] "GET /api/v1/profile HTTP/1.1" 200 842 "-" "Mozilla/5.0" 0.085
+192.168.1.15 - - [29/Sep/2026:10:00:15 +0000] "POST /api/v1/cart/items HTTP/1.1" 201 312 "-" "Mozilla/5.0" 0.120
+192.168.1.16 - - [29/Sep/2026:10:00:22 +0000] "GET /non-existent-page HTTP/1.1" 404 182 "-" "Mozilla/5.0" 0.015
+192.168.1.17 - - [29/Sep/2026:10:00:25 +0000] "GET /products/item-492 HTTP/1.1" 200 3410 "-" "Mozilla/5.0" 0.065
+192.168.1.18 - - [29/Sep/2026:10:00:30 +0000] "GET /about-us HTTP/1.1" 200 2890 "-" "Mozilla/5.0" 0.022
+192.168.1.19 - - [29/Sep/2026:10:00:35 +0000] "GET /contact HTTP/1.1" 200 1950 "-" "Mozilla/5.0" 0.018
+192.168.1.10 - - [29/Sep/2026:10:00:40 +0000] "POST /api/v1/feedback HTTP/1.1" 200 150 "-" "Mozilla/5.0" 0.095
+192.168.1.20 - - [29/Sep/2026:10:00:45 +0000] "GET /docs/api-guide HTTP/1.1" 301 0 "-" "Mozilla/5.0" 0.005
+192.168.1.20 - - [29/Sep/2026:10:00:46 +0000] "GET /docs/api-guide/ HTTP/1.1" 200 5620 "-" "Mozilla/5.0" 0.035
+192.168.1.21 - - [29/Sep/2026:10:00:50 +0000] "GET /healthz HTTP/1.1" 200 24 "-" "Kube-Probe/1.28" 0.002
+192.168.1.22 - - [29/Sep/2026:10:00:55 +0000] "GET /api/v1/metrics HTTP/1.1" 200 1420 "-" "Prometheus/2.45" 0.015
